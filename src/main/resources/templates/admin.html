@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="/js/main.js"></script>
     <title>Admin panel</title>
     <style>
         table {
@@ -196,24 +197,6 @@
                editButton.innerText = 'Edit';
            }
        }
-</script>
-<script>
-    document.getElementById('searchInput').addEventListener('keyup', function(event) {
-        var searchQuery = event.target.value.toLowerCase();
-        var rows = document.querySelectorAll('#employeeTable tbody tr');
-
-        rows.forEach(function(row) {
-            var cells = row.querySelectorAll('td');
-            var matchesQuery = Array.from(cells).some(function(cell) {
-                return cell.textContent.toLowerCase().indexOf(searchQuery) > -1;
-            });
-            if (matchesQuery) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
 </script>
 <script>
     function deleteEmployee(employeeId) {
