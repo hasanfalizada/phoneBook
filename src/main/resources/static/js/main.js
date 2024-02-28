@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             star.classList.add('fas');
         }
     });
-    const favoriteHeader = document.querySelectorAll("th")[11]; // Adjust the index if necessary
+        const favoriteHeaderIndex = Array.from(document.querySelectorAll("th"))
+                                          .findIndex(header => header.classList.contains('favorite-column'));
+    const favoriteHeader = document.querySelectorAll("th")[favoriteHeaderIndex]; // Adjust the index if necessary
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -42,6 +44,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+        const favoriteHeaderIndex = Array.from(document.querySelectorAll("th"))
+                                          .findIndex(header => header.classList.contains('favorite-column'));
+    if (favoriteHeaderIndex !== -1) {
+        // Adjust the index if necessary and check if the favorite column exists
+        sortTableByColumn(document.querySelectorAll("th")[favoriteHeaderIndex], favoriteHeaderIndex, true);
+    }
+
     // Add sorting functionality
     let headers = document.querySelectorAll("th");
     headers.forEach(function(header, index) {
@@ -59,7 +68,7 @@ if (forceDesc) isAscending = false; // Force descending order if specified
 
 const sortedRows = rows.sort(function(a, b) {
     // Check if sorting the favorite column
-    if (column === 11) { // Assuming the favorite column is the 12th column (0-based index is 11)
+    if (column === favoriteHeaderIndex) {
         const aFavorite = a.querySelector(`td:nth-child(${column + 1}) i`).classList.contains('fas');
         const bFavorite = b.querySelector(`td:nth-child(${column + 1}) i`).classList.contains('fas');
         return aFavorite === bFavorite ? 0 : aFavorite ? -1 : 1;
@@ -80,8 +89,15 @@ if (!forceDesc) { // Skip this if we're forcing descending order on load
 // Re-append rows in sorted order
 sortedRows.forEach(row => tbody.appendChild(row));
 }
-const favoriteHeader = document.querySelectorAll("th")[11]; // Adjust the index if necessary
-sortTableByColumn(favoriteHeader, 11, true); // Force sorting in descending order for favorites on page load
+
+
+    if (favoriteHeaderIndex !== -1) {
+        // Adjust the index if necessary and check if the favorite column exists
+       const favoriteHeader = document.querySelectorAll("th")[favoriteHeaderIndex]; // Adjust the index if necessary
+       sortTableByColumn(favoriteHeader, favoriteHeaderIndex, true); // Force sorting in descending order for favorites on page load
+    }
+
+
 });
 
 

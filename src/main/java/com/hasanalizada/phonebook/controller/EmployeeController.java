@@ -4,6 +4,7 @@ import com.hasanalizada.phonebook.model.Employee;
 import com.hasanalizada.phonebook.repository.EmployeeRepository;
 import com.hasanalizada.phonebook.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,9 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class EmployeeController {
-
+    @Value("${columns.hidden}")
+    private String hiddenColumns;
     private final EmployeeRepository employeeRepository;
 
     @Autowired
@@ -28,6 +35,18 @@ public class EmployeeController {
     @GetMapping("/")
     public String showEmployeeList(Model model) {
         model.addAttribute("employeeList", employeeRepository.findByStatus(Employee.Status.ACTIVE));
+        List<Integer> hiddenColumnsList;
+
+        if (hiddenColumns == null || hiddenColumns.trim().isEmpty()) {
+            hiddenColumnsList = new ArrayList<>();  // Initialize with an empty list if the parameter is empty
+        } else {
+            hiddenColumnsList = Arrays.stream(hiddenColumns.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        }
+        model.addAttribute("hiddenColumnsList", hiddenColumnsList);
         return "index"; // Return the name of the Thymeleaf template (index.html)
     }
 

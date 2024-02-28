@@ -17,7 +17,8 @@
 <div class="table-responsive">
     <div class="fixed-header">
         <span class="header-text">Your Company Name</span>
-        <i id="toggleTextSizeIcon" onclick="toggleTextSize()" class="fas fa-text-height float-right" style="cursor:pointer;"></i>
+        <i id="toggleTextSizeIcon" onclick="toggleTextSize()" class="fas fa-text-height float-right"
+           style="cursor:pointer;"></i>
         <h1>Phone Book</h1>
         <input class="form-control mb-3" id="searchInput" type="text" placeholder="Search...">
     </div>
@@ -25,44 +26,64 @@
         <table class="table table-bordered" style="padding-bottom: 60px;">
             <thead class="thead-light">
             <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Patronymic</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>IP Number</th>
-                <th>Structure 1</th>
-                <th>Structure 2</th>
-                <th>Structure 3</th>
-                <th>Structure 4</th>
-                <th>Structure 5</th>
+                <!-- Iterating over a sequence of numbers representing columns -->
+                <th th:each="col : ${#numbers.sequence(1, 11)}"
+                    th:if="${!hiddenColumnsList.contains(col)}" data-th-index="${col}">
+                    <span th:switch="${col}">
+                        <span th:case="1">Name</span>
+                        <span th:case="2">Surname</span>
+                        <span th:case="3">Patronymic</span>
+                        <span th:case="4">Department</span>
+                        <span th:case="5">Position</span>
+                        <span th:case="6">IP Number</span>
+                        <span th:case="7">Structure 1</span>
+                        <span th:case="8">Structure 2</span>
+                        <span th:case="9">Structure 3</span>
+                        <span th:case="10">Structure 4</span>
+                        <span th:case="11">Structure 5</span>
+                    </span>
+                </th>
                 <th class="favorite-column"><i class="far fa-star"></i></th>
             </tr>
+
             </thead>
             <tbody>
-            <tr th:each="employee : ${employeeList}" th:data-id="${employee.id}">
-                <td th:title="${employee.name}" th:text="${employee.name}"></td>
-                <td th:title="${employee.surname}" th:text="${employee.surname}"></td>
-                <td th:title="${employee.patronymic}" th:text="${employee.patronymic}"></td>
-                <td th:title="${employee.department}" th:text="${employee.department}"></td>
-                <td th:title="${employee.position}" th:text="${employee.position}"></td>
-                <td th:title="${employee.ipNumber}" th:text="${employee.ipNumber}"></td>
-                <td th:title="${employee.structure1}" th:text="${employee.structure1}"></td>
-                <td th:title="${employee.structure2}" th:text="${employee.structure2}"></td>
-                <td th:title="${employee.structure3}" th:text="${employee.structure3}"></td>
-                <td th:title="${employee.structure4}" th:text="${employee.structure4}"></td>
-                <td th:title="${employee.structure5}" th:text="${employee.structure5}"></td>
+            <!-- Iterating over each employee in the employeeList -->
+            <tr th:each="employee, empStat : ${employeeList}">
+                <!-- Iterating over the numbers representing column indices -->
+                <td th:each="col : ${#numbers.sequence(1,11)}"
+                    th:if="${!hiddenColumnsList.contains(col)}"
+                    data-th-index="${col}">
+                    <!-- Switching between columns based on their index -->
+                    <span th:switch="${col}">
+                <span th:title="${employee.name}" th:case="1" th:text="${employee.name}"></span>
+                <span th:title="${employee.surname}" th:case="2" th:text="${employee.surname}"></span>
+                <span th:title="${employee.patronymic}" th:case="3" th:text="${employee.patronymic}"></span>
+                <span th:title="${employee.department}" th:case="4" th:text="${employee.department}"></span>
+                <span th:title="${employee.position}" th:case="5" th:text="${employee.position}"></span>
+                <span th:title="${employee.ipNumber}" th:case="6" th:text="${employee.ipNumber}"></span>
+                <span th:title="${employee.structure1}" th:case="7" th:text="${employee.structure1}"></span>
+                <span th:title="${employee.structure2}" th:case="8" th:text="${employee.structure2}"></span>
+                <span th:title="${employee.structure3}" th:case="9" th:text="${employee.structure3}"></span>
+                <span th:title="${employee.structure4}" th:case="10" th:text="${employee.structure4}"></span>
+                <span th:title="${employee.structure5}" th:case="11" th:text="${employee.structure5}"></span>
+                        <!-- Add additional spans/cases for more columns if needed -->
+            </span>
+                </td>
                 <td><i class="fa-star far" th:data-id="${employee.id}"
                        th:attr="onclick='toggleFavorite(this, ' + ${employee.id} + ');'" style="color: #d5d56d;"></i>
                 </td>
             </tr>
+
+
             </tbody>
         </table>
     </div>
 </div>
 <footer class="footer">
     <div class="container">
-        <a href="mailto:recipient@example.com?subject=Subject%20Here&body=Body%20Here&cc=cc@example.com&bcc=bcc@example.com" class="footer-link">Contact support</a>
+        <a href="mailto:recipient@example.com?subject=Subject%20Here&body=Body%20Here&cc=cc@example.com&bcc=bcc@example.com"
+           class="footer-link">Contact support</a>
         <span class="text-muted">© 2024 Your Company Name. All rights reserved.</span>
         <a href="https://hasanfalizada.github.io/" target="_blank" class="footer-link">By Hasan Alizada</a>
     </div>
