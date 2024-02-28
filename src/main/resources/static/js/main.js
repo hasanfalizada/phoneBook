@@ -25,17 +25,65 @@ document.addEventListener("DOMContentLoaded", function() {
     const favoriteHeader = document.querySelectorAll("th")[favoriteHeaderIndex]; // Adjust the index if necessary
 });
 
+function customToLowerCase(input) {
+    // Custom lowercase conversion to handle specific Azerbaijani characters correctly
+    let result = "";
+    for (let char of input) {
+        switch (char) {
+            case 'İ':
+                result += 'i';
+                break;
+            case 'I':
+                result += 'ı'; // Add if you want 'I' to be treated as dotless i in the context
+                break;
+            default:
+                result += char.toLowerCase();
+        }
+    }
+    return result;
+}
+
+function normalizeAzerbaijaniCharacters(input) {
+    const charMap = {
+        'ğ': 'g',
+        'ə': 'e',
+        'ü': 'u',
+        'ı': 'i',
+        'i': 'i',
+        'ş': 's',
+        'ç': 'c',
+        'ö': 'o',
+        'Ğ': 'G',
+        'Ə': 'E',
+        'Ü': 'U',
+        'I': 'I',
+        'İ': 'I',
+        'Ş': 'S',
+        'Ç': 'C',
+        'Ö': 'O'
+    };
+
+    let normalized = '';
+    for (let char of input) {
+        normalized += charMap[char] || char;
+    }
+    return normalized;
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('keyup', function() {
-        let filter = searchInput.value.toLowerCase();
+searchInput.addEventListener('keyup', function() {
+        let filter = normalizeAzerbaijaniCharacters(customToLowerCase(searchInput.value));
         let table = document.querySelector("table");
         let tr = table.getElementsByTagName("tr");
+
         for (let i = 1; i < tr.length; i++) {
             let tds = tr[i].getElementsByTagName("td");
             let found = false;
             for (let j = 0; j < tds.length; j++) {
-                if (tds[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                let tdText = normalizeAzerbaijaniCharacters(customToLowerCase(tds[j].textContent));
+                if (tdText.includes(filter)) {
                     found = true;
                     break;
                 }
