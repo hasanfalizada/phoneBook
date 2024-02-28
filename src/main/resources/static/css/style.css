@@ -1,0 +1,85 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background-color: white;
+    padding: 8px 0;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, .4);
+    text-align: center;
+}
+
+.fixed-header .header-text {
+    font-size: 12px; /* Adjust the font size as needed */
+    position: absolute; /* Position the text absolutely within the header */
+    top: 10px; /* Adjust top and left offsets to position your text correctly */
+    left: 10px;
+    margin: 0; /* Optional: Removes any default margin */
+}
+
+.scrollable-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 150px);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    cursor: url("/images/sort_icon.png"), auto;
+}
+
+th.favorite-column {
+    cursor: auto;
+}
+
+h1{
+    text-align: center;
+}
+
+.text-large {
+    font-size: 1.5em; /* Large text size */
+}
+
+#toggleTextSizeIcon {
+    cursor: pointer;
+    padding: 10px; /* Slight padding added around the icon */
+    margin-left: auto; /* Align the icon to the right */
+    display: block;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #f8f9fa; /* Set background color */
+    border-top: 1px solid #dee2e6; /* Add a border on top for separation */
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between; /* Align items with space between them */
+    align-items: center; /* Center items vertically */
+}
+
+.footer .footer-link {
+    margin: 0 10px; /* Adjust margins between footer links */
+}

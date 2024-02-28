@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone Book</title>
+    <link rel="icon" type="image/png" href="/images/favico.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.0/js.cookie.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<div class="table-responsive">
+    <div class="fixed-header">
+        <span class="header-text">Your Company Name</span>
+        <i id="toggleTextSizeIcon" onclick="toggleTextSize()" class="fas fa-text-height float-right" style="cursor:pointer;"></i>
+        <h1>Phone Book</h1>
+        <input class="form-control mb-3" id="searchInput" type="text" placeholder="Search...">
+    </div>
+    <div class="scrollable-content">
+        <table class="table table-bordered" style="padding-bottom: 60px;">
+            <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Patronymic</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>IP Number</th>
+                <th>Structure 1</th>
+                <th>Structure 2</th>
+                <th>Structure 3</th>
+                <th>Structure 4</th>
+                <th>Structure 5</th>
+                <th class="favorite-column"><i class="far fa-star"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employeeList}" th:data-id="${employee.id}">
+                <td th:text="${employee.name}"></td>
+                <td th:text="${employee.surname}"></td>
+                <td th:text="${employee.patronymic}"></td>
+                <td th:text="${employee.department}"></td>
+                <td th:text="${employee.position}"></td>
+                <td th:text="${employee.ipNumber}"></td>
+                <td th:text="${employee.structure1}"></td>
+                <td th:text="${employee.structure2}"></td>
+                <td th:text="${employee.structure3}"></td>
+                <td th:text="${employee.structure4}"></td>
+                <td th:text="${employee.structure5}"></td>
+                <td><i class="fa-star far" th:data-id="${employee.id}"
+                       th:attr="onclick='toggleFavorite(this, ' + ${employee.id} + ');'" style="color: #d5d56d;"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <a href="mailto:recipient@example.com?subject=Subject%20Here&body=Body%20Here&cc=cc@example.com&bcc=bcc@example.com" class="footer-link">Contact support</a>
+        <span class="text-muted">© 2024 Your Company Name. All rights reserved.</span>
+        <a href="https://hasanfalizada.github.io/" target="_blank" class="footer-link">By Hasan Alizada</a>
+    </div>
+</footer>
+</body>
+</html>

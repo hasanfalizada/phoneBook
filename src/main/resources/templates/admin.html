@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Admin panel</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .edit-mode input {
+            width: 100%; /* Ensure text boxes fill the entire cell */
+        }
+    </style>
+</head>
+<body>
+<h2>Add Employee</h2>
+<style>
+    form {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    label {
+        grid-column: 1 / 2;
+        align-self: center;
+    }
+
+    input[type="text"] {
+        grid-column: 2 / 3;
+        width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        grid-column: span 2;
+        justify-self: center;
+    }
+</style>
+
+<form action="/employees" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${employee.name}">
+
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" name="surname" th:value="${employee.surname}">
+
+    <label for="patronymic">Patronymic:</label>
+    <input type="text" id="patronymic" name="patronymic" th:value="${employee.patronymic}">
+
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" th:value="${employee.department}">
+
+    <label for="position">Position:</label>
+    <input type="text" id="position" name="position" th:value="${employee.position}">
+
+    <label for="ipNumber">IP Number:</label>
+    <input type="text" id="ipNumber" name="ipNumber" th:value="${employee.ipNumber}">
+
+    <label for="structure1">Structure 1:</label>
+    <input type="text" id="structure1" name="structure1" th:value="${employee.structure1}">
+
+    <label for="structure2">Structure 2:</label>
+    <input type="text" id="structure2" name="structure2" th:value="${employee.structure2}">
+
+    <label for="structure3">Structure 3:</label>
+    <input type="text" id="structure3" name="structure3" th:value="${employee.structure3}">
+
+    <label for="structure4">Structure 4:</label>
+    <input type="text" id="structure4" name="structure4" th:value="${employee.structure4}">
+
+    <label for="structure5">Structure 5:</label>
+    <input type="text" id="structure5" name="structure5" th:value="${employee.structure5}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input type="submit" value="Submit">
+</form>
+
+<input class="form-control mb-3" id="searchInput" type="text" placeholder="Search...">
+
+<table id="employeeTable">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Patronymic</th>
+        <th>Department</th>
+        <th>Position</th>
+        <th>IP Number</th>
+        <th>Structure 1</th>
+        <th>Structure 2</th>
+        <th>Structure 3</th>
+        <th>Structure 4</th>
+        <th>Structure 5</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of employees and display each employee in a row -->
+    <tr th:each="employee : ${employeeList}" th:id="'employeeRow-' + ${employee.id}">
+        <td class="name" th:text="${employee.name}"></td>
+        <td class="surname" th:text="${employee.surname}"></td>
+        <td class="patronymic" th:text="${employee.patronymic}"></td>
+        <td class="department" th:text="${employee.department}"></td>
+        <td class="position" th:text="${employee.position}"></td>
+        <td class="ipNumber" th:text="${employee.ipNumber}"></td>
+        <td class="structure1" th:text="${employee.structure1}"></td>
+        <td class="structure2" th:text="${employee.structure2}"></td>
+        <td class="structure3" th:text="${employee.structure3}"></td>
+        <td class="structure4" th:text="${employee.structure4}"></td>
+        <td class="structure5" th:text="${employee.structure5}"></td>
+        <td>
+            <button th:onclick="'toggleEditMode(' + ${employee.id} + ')'">Edit</button>
+            <button th:onclick="'deleteEmployee(' + ${employee.id} + ')'" >Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- JavaScript to display error message as a popup -->
+<script th:inline="javascript">
+    var urlParams = new URLSearchParams(window.location.search);
+    var errorMessage = urlParams.get('error');
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+</script>
+<script>
+    function toggleEditMode(employeeId) {
+           var row = document.getElementById('employeeRow-' + employeeId);
+           var cells = row.getElementsByTagName('td');
+           var editButton = row.querySelector('button');
+
+           // Toggle edit mode for each cell except the button cell and cells with buttons
+           for (var i = 0; i < cells.length; i++) {
+               var cell = cells[i];
+               if (!cell.classList.contains('edit-mode') && cell.querySelector('button') === null) {
+                   var cellValue = cell.innerText;
+                   // Replace cell content with text box
+                   cell.innerHTML = '<input type="text" value="' + cellValue + '">';
+                   cell.classList.add('edit-mode');
+               } else {
+                   // Save changes and exit edit mode
+                   var textBox = cell.querySelector('input');
+                   if (textBox) {
+                       cell.innerText = textBox.value;
+                       cell.classList.remove('edit-mode');
+                   }
+               }
+           }
+
+           // Change button caption to "Save" when in edit mode
+           if (editButton.innerText === 'Edit') {
+               editButton.innerText = 'Save';
+           } else {
+               // Send HTTP POST request to save changes to the database
+               var formData = new FormData();
+               formData.append('name', row.querySelector('.name').innerText);
+               formData.append('surname', row.querySelector('.surname').innerText);
+               formData.append('patronymic', row.querySelector('.patronymic').innerText);
+               formData.append('department', row.querySelector('.department').innerText);
+               formData.append('position', row.querySelector('.position').innerText);
+               formData.append('ipNumber', row.querySelector('.ipNumber').innerText);
+               formData.append('structure1', row.querySelector('.structure1').innerText);
+               formData.append('structure2', row.querySelector('.structure2').innerText);
+               formData.append('structure3', row.querySelector('.structure3').innerText);
+               formData.append('structure4', row.querySelector('.structure4').innerText);
+               formData.append('structure5', row.querySelector('.structure5').innerText);
+
+               // Include CSRF token
+               var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+               var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
+               fetch('/employees/' + employeeId, {
+                   method: 'PATCH',
+                   body: formData,
+                   headers: {
+                       [csrfHeader]: csrfToken
+                   }
+               }).then(response => {
+                   // Handle response
+                   console.log(response);
+                   // Reload the page to reflect the changes
+               }).catch(error => {
+                   // Handle error
+                   console.error('Error:', error);
+               });
+
+               editButton.innerText = 'Edit';
+           }
+       }
+</script>
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function(event) {
+        var searchQuery = event.target.value.toLowerCase();
+        var rows = document.querySelectorAll('#employeeTable tbody tr');
+
+        rows.forEach(function(row) {
+            var cells = row.querySelectorAll('td');
+            var matchesQuery = Array.from(cells).some(function(cell) {
+                return cell.textContent.toLowerCase().indexOf(searchQuery) > -1;
+            });
+            if (matchesQuery) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+<script>
+    function deleteEmployee(employeeId) {
+    // Include CSRF token
+    var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
+    fetch('/employees/delete/' + employeeId, { // Adjust the endpoint as needed
+        method: 'PATCH', // or POST, depending on your backend setup
+        headers: {
+            [csrfHeader]: csrfToken,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'DELETED' }) // Assuming your backend can process JSON body
+    }).then(response => {
+        if (response.ok) {
+            // Optionally, remove the row from view or mark it as deleted
+            document.getElementById('employeeRow-' + employeeId).style.display = 'none';
+        } else {
+            alert('Failed to delete the employee.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+</script>
+</body>
+</html>
