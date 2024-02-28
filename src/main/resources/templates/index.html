@@ -41,17 +41,17 @@
             </thead>
             <tbody>
             <tr th:each="employee : ${employeeList}" th:data-id="${employee.id}">
-                <td th:text="${employee.name}"></td>
-                <td th:text="${employee.surname}"></td>
-                <td th:text="${employee.patronymic}"></td>
-                <td th:text="${employee.department}"></td>
-                <td th:text="${employee.position}"></td>
-                <td th:text="${employee.ipNumber}"></td>
-                <td th:text="${employee.structure1}"></td>
-                <td th:text="${employee.structure2}"></td>
-                <td th:text="${employee.structure3}"></td>
-                <td th:text="${employee.structure4}"></td>
-                <td th:text="${employee.structure5}"></td>
+                <td th:title="${employee.name}" th:text="${employee.name}"></td>
+                <td th:title="${employee.surname}" th:text="${employee.surname}"></td>
+                <td th:title="${employee.patronymic}" th:text="${employee.patronymic}"></td>
+                <td th:title="${employee.department}" th:text="${employee.department}"></td>
+                <td th:title="${employee.position}" th:text="${employee.position}"></td>
+                <td th:title="${employee.ipNumber}" th:text="${employee.ipNumber}"></td>
+                <td th:title="${employee.structure1}" th:text="${employee.structure1}"></td>
+                <td th:title="${employee.structure2}" th:text="${employee.structure2}"></td>
+                <td th:title="${employee.structure3}" th:text="${employee.structure3}"></td>
+                <td th:title="${employee.structure4}" th:text="${employee.structure4}"></td>
+                <td th:title="${employee.structure5}" th:text="${employee.structure5}"></td>
                 <td><i class="fa-star far" th:data-id="${employee.id}"
                        th:attr="onclick='toggleFavorite(this, ' + ${employee.id} + ');'" style="color: #d5d56d;"></i>
                 </td>

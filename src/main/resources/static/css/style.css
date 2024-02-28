@@ -33,6 +33,7 @@ html {
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 th,
@@ -40,6 +41,10 @@ td {
     border: 1px solid black;
     padding: 8px;
     text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides text that overflows the cell */
+    text-overflow: ellipsis; /* Optional: indicates text is clipped with an ellipsis */
+    max-width: 0; /* Ensures that the cell does not grow beyond the width set */
 }
 
 th {
@@ -82,4 +87,21 @@ h1{
 
 .footer .footer-link {
     margin: 0 10px; /* Adjust margins between footer links */
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    text-align: center;
+    padding: 5px;
+}
+
+.table thead th {
+    text-align: center;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+element.style {
+    padding-bottom: 60px;
+    table-layout: fixed;
 }
