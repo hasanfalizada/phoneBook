@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Phone Book</title>
+    <title th:text="#{app.page.title}"></title>
     <link rel="icon" type="image/png" href="/images/favico.png">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/all.min.css">
@@ -16,11 +16,11 @@
 <body>
 <div class="table-responsive">
     <div class="fixed-header">
-        <span class="header-text">Your Company Name</span>
+        <span class="header-text" th:text="#{app.page.company}"></span>
         <i id="toggleTextSizeIcon" onclick="toggleTextSize()" class="fas fa-text-height float-right"
            style="cursor:pointer;"></i>
-        <h1>Phone Book</h1>
-        <input class="form-control mb-3" id="searchInput" type="text" placeholder="Search...">
+        <h1 th:text="#{app.page.centraltext}"></h1>
+        <input class="form-control mb-3" id="searchInput" type="text" th:placeholder="#{app.page.search}">
     </div>
     <div class="scrollable-content">
         <table class="table table-bordered" style="padding-bottom: 60px;">
@@ -30,17 +30,17 @@
                 <th th:each="col : ${#numbers.sequence(1, 11)}"
                     th:if="${!hiddenColumnsList.contains(col)}" data-th-index="${col}">
                     <span th:switch="${col}">
-                        <span th:case="1">Name</span>
-                        <span th:case="2">Surname</span>
-                        <span th:case="3">Patronymic</span>
-                        <span th:case="4">Department</span>
-                        <span th:case="5">Position</span>
-                        <span th:case="6">IP Number</span>
-                        <span th:case="7">Structure 1</span>
-                        <span th:case="8">Structure 2</span>
-                        <span th:case="9">Structure 3</span>
-                        <span th:case="10">Structure 4</span>
-                        <span th:case="11">Structure 5</span>
+                        <span th:case="1" th:text="#{app.page.columns.name}"></span>
+                        <span th:case="2" th:text="#{app.page.columns.surname}"></span>
+                        <span th:case="3" th:text="#{app.page.columns.patronymic}"></span>
+                        <span th:case="4" th:text="#{app.page.columns.department}"></span>
+                        <span th:case="5" th:text="#{app.page.columns.position}"></span>
+                        <span th:case="6" th:text="#{app.page.columns.ipNumber}"></span>
+                        <span th:case="7" th:text="#{app.page.columns.structure1}"></span>
+                        <span th:case="8" th:text="#{app.page.columns.structure2}"></span>
+                        <span th:case="9" th:text="#{app.page.columns.structure3}"></span>
+                        <span th:case="10" th:text="#{app.page.columns.structure4}"></span>
+                        <span th:case="11" th:text="#{app.page.columns.structure5}"></span>
                     </span>
                 </th>
                 <th class="favorite-column"><i class="far fa-star"></i></th>
@@ -82,9 +82,10 @@
 </div>
 <footer class="footer">
     <div class="container">
-        <a href="mailto:recipient@example.com?subject=Subject%20Here&body=Body%20Here&cc=cc@example.com&bcc=bcc@example.com"
-           class="footer-link">Contact support</a>
-        <span class="text-muted">© 2024 Your Company Name. All rights reserved.</span>
+        <a th:href="|mailto:#{app.page.supportemail}|"
+           class="footer-link" th:text="#{app.page.supportmessage}"></a>
+
+        <span class="text-muted" th:text="#{app.page.copyright}"></span>
         <a href="https://hasanfalizada.github.io/" target="_blank" class="footer-link">By Hasan Alizada</a>
     </div>
 </footer>

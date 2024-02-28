@@ -1,7 +1,9 @@
 package com.hasanalizada.phonebook.security;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,4 +54,13 @@ public class SecurityConfig {
                 .logout(logout -> logout.permitAll());
         return http.build();
     }
+
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("application");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
 }
