@@ -1,13 +1,16 @@
 function toggleFavorite(starElement, employeeIndex) {
+    const row = starElement.closest('tr'); // Get the parent row of the clicked star
     const isFavorite = starElement.classList.contains('fas');
     if (isFavorite) {
         starElement.classList.remove('fas');
         starElement.classList.add('far');
         Cookies.remove('favorite_' + employeeIndex); // Using js-cookie
+        row.classList.remove('favorite-row'); // Remove bold style
     } else {
         starElement.classList.add('fas');
         starElement.classList.remove('far');
         Cookies.set('favorite_' + employeeIndex, 'true', { expires: 7000 }); // Using js-cookie
+        row.classList.add('favorite-row'); // Apply bold style
     }
 }
 
@@ -18,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (Cookies.get('favorite_' + employeeId) === 'true') { // Check the cookie using employee ID
             star.classList.remove('far');
             star.classList.add('fas');
+            star.closest('tr').classList.add('favorite-row'); // Add bold styling
         }
     });
         const favoriteHeaderIndex = Array.from(document.querySelectorAll("th"))
